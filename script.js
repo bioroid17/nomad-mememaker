@@ -2,16 +2,46 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 canvas.width = 800;
 canvas.height = 800;
+ctx.lineWidth = 2;
+const colors = [
+	"#55efc4",
+	"#00b894",
+	"#ffeaa7",
+	"#fdcb6e",
+	"#e17055",
+	"#fab1a0",
+	"#00cec9",
+	"#81ecec",
+	"#74b9ff",
+	"#0984e3",
+	"#ff7675",
+	"#d63031",
+	"#e84393",
+	"#fd79a8",
+	"#6c5ce7",
+	"#a29bfe",
+	"#dfe6e9",
+	"#b2bec3",
+	"#636e72",
+	"#2d3436",
+];
 
-ctx.fillRect(210 - 40, 200 - 30, 15, 100);
-ctx.fillRect(350 - 40, 200 - 30, 15, 100);
-ctx.fillRect(260 - 40, 200 - 30, 60, 200);
+let x = 0;
+let y = 0;
 
-ctx.arc(250, 100, 50, 0, 2 * Math.PI);
-ctx.fill();
+function onMove(event) {
+	ctx.beginPath();
+	ctx.moveTo(x, y);
+	const color = colors[Math.floor(Math.random() * colors.length)];
+	ctx.lineTo(event.offsetX, event.offsetY);
+	ctx.strokeStyle = color;
+	ctx.stroke();
+}
 
-ctx.beginPath();
-ctx.fillStyle = "green";
-ctx.arc(260 + 10, 80, 8, Math.PI, 2 * Math.PI);
-ctx.arc(220 + 10, 80, 8, Math.PI, 2 * Math.PI);
-ctx.fill();
+function onClick() {
+	x = Math.floor(Math.random() * 800);
+	y = Math.floor(Math.random() * 800);
+}
+
+canvas.addEventListener("mousemove", onMove);
+canvas.addEventListener("click", onClick);
