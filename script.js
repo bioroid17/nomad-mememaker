@@ -1,6 +1,7 @@
 const textInput = document.getElementById("text");
 const fileInput = document.getElementById("file");
 const modeBtn = document.getElementById("mode-btn");
+const bType = document.getElementsByName("btype");
 const destroyBtn = document.getElementById("destroy-btn");
 const eraserBtn = document.getElementById("eraser-btn");
 const saveBtn = document.getElementById("save-btn");
@@ -9,6 +10,9 @@ const colorOptions = Array.from(
 );
 const color = document.getElementById("color");
 const lineWidth = document.getElementById("line-width");
+const fontStyle = document.getElementById("font-style");
+const fontFamily = document.getElementById("font-family");
+const fontSize = document.getElementById("font-size");
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -35,6 +39,9 @@ function startPainting() {
 }
 function cancelPainting() {
 	isPainting = false;
+	if (bType[1].checked) {
+		ctx.fill();
+	}
 	ctx.beginPath();
 }
 function onLineWidthChange(event) {
@@ -73,6 +80,7 @@ function onDestroyClick() {
 }
 function onEraserClick() {
 	ctx.strokeStyle = "white";
+	ctx.fillStyle = "white";
 	isFilling = false;
 	modeBtn.innerText = "💧 Fill";
 }
@@ -91,8 +99,12 @@ function onDoubleClick(event) {
 	if (text !== "") {
 		ctx.save();
 		ctx.lineWidth = 1;
-		ctx.font = "48px serif";
-		ctx.fillText(text, event.offsetX, event.offsetY);
+		ctx.font = `${fontStyle.value} ${fontSize.value}px ${fontFamily.value}`;
+		if (bType[1].checked) {
+			ctx.fillText(text, event.offsetX, event.offsetY);
+		} else {
+			ctx.strokeText(text, event.offsetX, event.offsetY);
+		}
 		ctx.restore();
 	}
 }
